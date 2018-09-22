@@ -1,0 +1,25 @@
+# platform :ios, '9.0'
+
+target 'RxSimpleFlickr' do
+   use_frameworks!
+  # Pods for RxSimpleFlickr
+ 
+  # Architecture
+  pod 'ReactorKit'
+
+  # Rx
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxDataSources', '~> 3.0'
+
+  # UI
+  pod 'SnapKit'
+
+  # Network
+  pod 'Alamofire', '~> 4.7'
+  pod 'Kingfisher', '~> 4.0'
+
+  # Parsing
+  pod 'SwiftyJSON', '~> 4.0'
+
+end
