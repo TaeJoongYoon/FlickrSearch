@@ -21,7 +21,7 @@ class PhotoListViewController: UIViewController {
   
   var parameters = [
     "method": "flickr.photos.search",
-    "api_key": "36530b310e1eabc357cb00ba6c14bebd",
+    "api_key": "##############################",
     "format": "json",
     "per_page": "100",
     "nojsoncallback": "1"
