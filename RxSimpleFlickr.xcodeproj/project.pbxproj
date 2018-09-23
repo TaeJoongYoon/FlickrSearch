@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1056B4262157459400B85D64 /* AppService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1056B4252157459400B85D64 /* AppService.swift */; };
 		3EBF0E7D25872E68862CF3A9 /* Pods_RxSimpleFlickr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0352633A8BB7FDD7D9C6E1FA /* Pods_RxSimpleFlickr.framework */; };
 		6F361303215613EF007967F6 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F361302215613EF007967F6 /* PhotoCell.swift */; };
 		6F3DC22121567D0800063F2E /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3DC22021567D0800063F2E /* Photo.swift */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		0352633A8BB7FDD7D9C6E1FA /* Pods_RxSimpleFlickr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSimpleFlickr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1056B4252157459400B85D64 /* AppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
 		6F361302215613EF007967F6 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		6F3DC22021567D0800063F2E /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		6F3DC2222156855200063F2E /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
@@ -48,6 +50,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1056B4242157458600B85D64 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				1056B4252157459400B85D64 /* AppService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		3F8575244708F6C80783F6A4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +114,7 @@
 		6FEA19372156125200E261D9 /* RxSimpleFlickr */ = {
 			isa = PBXGroup;
 			children = (
+				1056B4242157458600B85D64 /* Service */,
 				6F3DC21F21567CFD00063F2E /* Model */,
 				6F3613052156161D007967F6 /* ViewControllers */,
 				6F36130421561615007967F6 /* Views */,
@@ -254,6 +265,7 @@
 			files = (
 				6F3DC2232156855200063F2E /* Photos.swift in Sources */,
 				6FEA193B2156125200E261D9 /* PhotoListViewController.swift in Sources */,
+				1056B4262157459400B85D64 /* AppService.swift in Sources */,
 				6FEA19392156125200E261D9 /* AppDelegate.swift in Sources */,
 				6F3DC2252156B9C200063F2E /* DetailViewController.swift in Sources */,
 				6F361303215613EF007967F6 /* PhotoCell.swift in Sources */,
