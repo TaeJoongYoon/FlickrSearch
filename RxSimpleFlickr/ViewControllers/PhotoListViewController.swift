@@ -9,8 +9,6 @@
 import UIKit
 import SnapKit
 import Kingfisher
-import Alamofire
-import SwiftyJSON
 import RxCocoa
 import RxSwift
 import RxDataSources
@@ -21,7 +19,7 @@ class PhotoListViewController: UIViewController {
   
   var parameters = [
     "method": "flickr.photos.search",
-    "api_key": "##############################",
+    "api_key": "36530b310e1eabc357cb00ba6c14bebd",
     "format": "json",
     "per_page": "100",
     "nojsoncallback": "1"
@@ -45,7 +43,7 @@ class PhotoListViewController: UIViewController {
   
   // MARK : Rx
   
-  var disposeBag = DisposeBag()
+  let disposeBag = DisposeBag()
   
   // MARK: Properties
   
@@ -94,17 +92,14 @@ class PhotoListViewController: UIViewController {
   // MARK: Constraints
   
   func setupConstraints() {
-    self.collectionView.snp.makeConstraints{(make) -> Void in
+    self.collectionView.snp.makeConstraints{ make in
       make.top.equalTo(self.searchBar.snp.bottom)
-      make.left.equalTo(self.view)
-      make.bottom.equalTo(self.view)
-      make.right.equalTo(self.view)
+      make.left.right.bottom.equalTo(self.view)
     }
     
-    self.searchBar.snp.makeConstraints{(make) -> Void in
+    self.searchBar.snp.makeConstraints{ make in
       make.top.equalTo(self.view).offset(20 + 44)
-      make.left.equalTo(self.view)
-      make.right.equalTo(self.view)
+      make.left.right.equalTo(self.view)
     }
   }
   
@@ -112,6 +107,7 @@ class PhotoListViewController: UIViewController {
   
   func bind() {
     self.collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+    
     self.collectionView.rx.modelSelected(Photo.self).subscribe(onNext: { photo in
       let view = DetailViewController()
       view.photoTitle = photo.title
@@ -122,32 +118,26 @@ class PhotoListViewController: UIViewController {
       self.navigationController?.pushViewController(view, animated: true)
     })
     .disposed(by: disposeBag)
+    
     self.searchBar.rx.text
       .orEmpty
       .debounce(0.5, scheduler: MainScheduler.instance)
       .distinctUntilChanged()
       .filter { !$0.isEmpty }
-      .subscribe(onNext: { [unowned self] text in
-        self.parameters["text"] = text
-        Alamofire.request(self.BASE_URL, parameters: self.parameters, headers: self.headers).responseJSON { response in
-          
-          switch response.result {
-          case .success(let value):
-            let result = JSON(value)
-            let photos = result["photos"]["photo"].arrayValue.map{Photo(id: $0["id"].stringValue, owner: $0["owner"].stringValue, secret: $0["secret"].stringValue, server: $0["server"].stringValue
-              , farm: $0["farm"].intValue, title: $0["title"].stringValue, ispubilc: $0["ispublic"].intValue, isfriend: $0["isfriend"].intValue, isfamily: $0["isfamily"].intValue)}
-            
-            self.collectionView.dataSource = nil
-            
-            BehaviorRelay(value: [Photos(photos: photos)])
-              .bind(to: self.collectionView.rx.items(dataSource: self.dataSources))
-              .disposed(by: self.disposeBag)
-          
-          case .failure(let error):
-            print(error)
-          }
-        }
-      })
+      .map { [weak self] keyword -> (String, [String: String], [String: String]) in
+        var params = self?.parameters ?? [:]
+        params["text"] = keyword
+
+        let url = self?.BASE_URL ?? ""
+        let headers = self?.headers ?? [:]
+        return (url, headers, params)
+      }
+      .flatMap {
+        return AppService.request(url: $0.0, headers: $0.1, params: $0.2).catchErrorJustReturn([])
+      }
+      .map { [Photos(photos: $0)] }
+      .asDriver(onErrorJustReturn: [])
+      .drive(collectionView.rx.items(dataSource: dataSources))
       .disposed(by: disposeBag)
   }
 }
@@ -158,23 +148,31 @@ class PhotoListViewController: UIViewController {
 extension PhotoListViewController: UICollectionViewDelegateFlowLayout{
   
   //DelegateFlowLayout
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+  func collectionView(_ collectionView: UICollectionView,
+                      layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: (collectionView.bounds.size.width-40)/3, height: (collectionView.bounds.size.width-40)/3)
+    return CGSize(width: (collectionView.bounds.size.width - 40) * 0.33,
+                  height: (collectionView.bounds.size.width - 40) * 0.33)
   }
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+  func collectionView(_ collectionView: UICollectionView,
+                      layout collectionViewLayout: UICollectionViewLayout,
                       minimumLineSpacingForSectionAt section: Int) ->CGFloat {
     return Metric.lineSpacing
   }
   
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+  func collectionView(_ collectionView: UICollectionView,
+                      layout collectionViewLayout: UICollectionViewLayout,
                       minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
     return Metric.intetItemSpacing
   }
   
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+  func collectionView(_ collectionView: UICollectionView,
+                      layout collectionViewLayout: UICollectionViewLayout,
                       insetForSectionAt section: Int) -> UIEdgeInsets {
-    return UIEdgeInsets.init(top: Metric.edgeInset, left: Metric.edgeInset, bottom: Metric.edgeInset, right: Metric.edgeInset)
+    return UIEdgeInsetsMake(Metric.edgeInset,
+                            Metric.edgeInset,
+                            Metric.edgeInset,
+                            Metric.edgeInset)
   }
 }
 
