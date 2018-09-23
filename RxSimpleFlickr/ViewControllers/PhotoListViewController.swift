@@ -12,24 +12,16 @@ import Kingfisher
 import RxCocoa
 import RxSwift
 import RxDataSources
+import ReusableKit
+import Then
 
 class PhotoListViewController: UIViewController {
   
-  let BASE_URL = "https://api.flickr.com/services/rest/"
-  
-  var parameters = [
-    "method": "flickr.photos.search",
-    "api_key": "36530b310e1eabc357cb00ba6c14bebd",
-    "format": "json",
-    "per_page": "100",
-    "nojsoncallback": "1"
-  ]
-  
-  let headers = [
-    "Content-Type": "application/json"
-  ]
-  
   // MARK : Constants
+  
+  struct Reusable {
+    static let flickrCell = ReusableCell<PhotoCell>()
+  }
   
   struct Constant {
     static let cellIdentifier = "cell"
@@ -47,30 +39,31 @@ class PhotoListViewController: UIViewController {
   
   // MARK: Properties
   
-  let dataSources = RxCollectionViewSectionedReloadDataSource<Photos>(configureCell: { dataSource, collectionView, indexPath, item in
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.cellIdentifier, for: indexPath) as! PhotoCell
-    
-    let url = URL(string: "https://farm\(item.farm).staticflickr.com/\(item.server)/\(item.id)_\(item.secret).jpg")
+  let dataSources = RxCollectionViewSectionedReloadDataSource<Photos>(configureCell: { dataSource,
+                                                                                    collectionView,
+                                                                                    indexPath,
+                                                                                    item in
+    let cell = collectionView.dequeue(Reusable.flickrCell, for: indexPath)
+    let url = URL(string: item.flickrURL())
     cell.flickrPhoto.kf.setImage(with: url)
     
     return cell
   })
-  
-  let searchBar : UISearchBar = {
-    let s = UISearchBar(frame: .zero)
-    s.searchBarStyle = .prominent
-    s.placeholder = " Search Flickr"
-    s.sizeToFit()
-    
-    return s
-  }()
+
+  let searchBar = UISearchBar(frame: .zero).then{
+    $0.searchBarStyle = .prominent
+    $0.placeholder = "Search Flickr"
+    $0.sizeToFit()
+  }
   
   let collectionView : UICollectionView = {
-    let c = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    c.translatesAutoresizingMaskIntoConstraints = false
-    c.backgroundColor = .white
-    c.register(PhotoCell.self, forCellWithReuseIdentifier: Constant.cellIdentifier)
-    return c
+    let collectionView = UICollectionView(frame: .zero
+      , collectionViewLayout: UICollectionViewFlowLayout())
+    
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.backgroundColor = .white
+    collectionView.register(Reusable.flickrCell)
+    return collectionView
   }()
   
   // MARK: View Life Cycle
@@ -110,30 +103,18 @@ class PhotoListViewController: UIViewController {
     
     self.collectionView.rx.modelSelected(Photo.self).subscribe(onNext: { photo in
       let view = DetailViewController()
-      view.photoTitle = photo.title
-      view.farm = photo.farm
-      view.server = photo.server
-      view.id = photo.id
-      view.secret = photo.secret
+      view.photo = photo
       self.navigationController?.pushViewController(view, animated: true)
     })
     .disposed(by: disposeBag)
     
     self.searchBar.rx.text
       .orEmpty
-      .debounce(0.5, scheduler: MainScheduler.instance)
+      .debounce(1.0, scheduler: MainScheduler.instance)
       .distinctUntilChanged()
       .filter { !$0.isEmpty }
-      .map { [weak self] keyword -> (String, [String: String], [String: String]) in
-        var params = self?.parameters ?? [:]
-        params["text"] = keyword
-
-        let url = self?.BASE_URL ?? ""
-        let headers = self?.headers ?? [:]
-        return (url, headers, params)
-      }
       .flatMap {
-        return AppService.request(url: $0.0, headers: $0.1, params: $0.2).catchErrorJustReturn([])
+        return AppService.request(keyword: $0).catchErrorJustReturn([])
       }
       .map { [Photos(photos: $0)] }
       .asDriver(onErrorJustReturn: [])

@@ -9,44 +9,33 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import Then
 
 class DetailViewController: UIViewController {
 
   // MARK: Properties
+  var photo = Photo()
   
-  var photoTitle = String()
-  var farm = Int()
-  var server = String()
-  var id = String()
-  var secret = String()
+  let imageView = UIImageView(frame: .zero).then{
+    $0.translatesAutoresizingMaskIntoConstraints = false
+  }
   
-  let photo : UIImageView = {
-    let p = UIImageView(frame: .zero)
-    p.translatesAutoresizingMaskIntoConstraints = false
-    
-    return p
-  }()
-  
-  let titleLabel : UILabel = {
-    let l = UILabel(frame: .zero)
-    
-    return l
-  }()
+  let titleLabel = UILabel(frame: .zero)
   
   // MARK: View Life Cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.addSubview(photo)
-    self.view.addSubview(titleLabel)
+    self.view.addSubview(self.imageView)
+    self.view.addSubview(self.titleLabel)
     
     setupConstraints()
     
     
-    let url = URL(string: "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret).jpg")
-    self.photo.kf.setImage(with: url)
+    let url = URL(string: photo!.flickrURL())
+    self.imageView.kf.setImage(with: url)
     
-    self.titleLabel.text = photoTitle
+    self.titleLabel.text = photo!.title!
   }
   
   override func didReceiveMemoryWarning() {
@@ -56,14 +45,13 @@ class DetailViewController: UIViewController {
   // MARK: Constraints
   
   func setupConstraints() {
-    self.photo.snp.makeConstraints{(make) -> Void in
+    self.imageView.snp.makeConstraints{make  in
       make.center.equalTo(self.view)
-      make.width.equalTo(240)
-      make.height.equalTo(240)
+      make.width.height.equalTo(240)
     }
     
-    self.titleLabel.snp.makeConstraints{(make) -> Void in
-      make.top.equalTo(self.photo.snp.bottom).offset(20)
+    self.titleLabel.snp.makeConstraints{make in
+      make.top.equalTo(self.imageView.snp.bottom).offset(20)
       make.centerX.equalTo(self.view)
     }
   }

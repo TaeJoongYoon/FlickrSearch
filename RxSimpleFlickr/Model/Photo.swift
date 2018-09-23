@@ -6,14 +6,36 @@
 //  Copyright © 2018 Tae joong Yoon. All rights reserved.
 //
 
-struct Photo{
-  let id : String
-  let owner : String
-  let secret : String
-  let server : String
-  let farm : Int
-  let title : String
-  let ispubilc : Int
-  let isfriend : Int
-  let isfamily: Int
+import ObjectMapper
+
+struct Photo : Mappable{
+  var id : String?
+  var owner : String?
+  var secret : String?
+  var server : String?
+  var farm : Int?
+  var title : String?
+  var ispubilc : Int?
+  var isfriend : Int?
+  var isfamily: Int?
+  
+  init?() { }
+  
+  init?(map: Map) {  }
+  
+  mutating func mapping(map: Map) {
+    id <- map["id"]
+    owner <- map["owner"]
+    secret <- map["secret"]
+    server <- map["server"]
+    farm <- map["farm"]
+    title <- map["title"]
+    ispubilc <- map["ispublic"]
+    isfriend <- map["isfriend"]
+    isfamily <- map["isfamily"]
+  }
+  
+  func flickrURL() -> String{
+    return "https://farm\(farm!).staticflickr.com/\(server!)/\(id!)_\(secret!).jpg"
+  }
 }

@@ -21,5 +21,11 @@ target 'RxSimpleFlickr' do
 
   # Parsing
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'ObjectMapper', '~> 3.2' 
+ 
+  # Misc.
+  pod 'ReusableKit'
+  pod 'Then'
 
 end
+

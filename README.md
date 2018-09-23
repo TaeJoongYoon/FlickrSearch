@@ -37,6 +37,14 @@ All code is what I studied and Using API [Flickr](www.flickr.com)
   ---
 
   - [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
+  - [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper)
+
+- ### Misc.
+
+  ---
+
+  - [ReusableKit](https://github.com/devxoul/ReusableKit)
+  - [Then](https://github.com/devxoul/Then)
 
 <br>
 <br>

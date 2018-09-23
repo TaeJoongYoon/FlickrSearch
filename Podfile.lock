@@ -2,8 +2,12 @@ PODS:
   - Alamofire (4.7.3)
   - Differentiator (3.1.0)
   - Kingfisher (4.9.0)
+  - ObjectMapper (3.3.0)
   - ReactorKit (1.1.0):
     - RxSwift (>= 4.0.0)
+  - ReusableKit (2.0.1):
+    - ReusableKit/Core (= 2.0.1)
+  - ReusableKit/Core (2.0.1)
   - RxCocoa (4.3.0):
     - RxSwift (~> 4.0)
   - RxDataSources (3.1.0):
@@ -13,40 +17,50 @@ PODS:
   - RxSwift (4.3.0)
   - SnapKit (4.0.0)
   - SwiftyJSON (4.1.0)
+  - Then (2.3.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - Kingfisher (~> 4.0)
+  - ObjectMapper (~> 3.2)
   - ReactorKit
+  - ReusableKit
   - RxCocoa
   - RxDataSources (~> 3.0)
   - RxSwift
   - SnapKit
   - SwiftyJSON (~> 4.0)
+  - Then
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - Differentiator
     - Kingfisher
+    - ObjectMapper
     - ReactorKit
+    - ReusableKit
     - RxCocoa
     - RxDataSources
     - RxSwift
     - SnapKit
     - SwiftyJSON
+    - Then
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
   Kingfisher: 64539b51826b778206daa6ed815d12653caa69dd
+  ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   ReactorKit: 26470a9eff5094fae909a30af0be7cd0cf8a182d
+  ReusableKit: 11b5bde14553a35bcf3979412dbfd1e690392f14
   RxCocoa: 71b9cce833fbcb89a8eec11816dd225830c2bd3c
   RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
   RxSwift: a9717a34df3179fe63563f76e046ad345078dd3a
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  Then: ee21c97b85ff6062b9b0080c9abb1eea46743345
 
-PODFILE CHECKSUM: c79d18b766ec32cb9a136e15a75e3a08345ef9aa
+PODFILE CHECKSUM: c24a9557d185d44093362559954f19c89c714287
 
 COCOAPODS: 1.5.3

@@ -9,28 +9,36 @@
 import RxSwift
 import Alamofire
 import SwiftyJSON
+import ObjectMapper
 
 class AppService {
-  static func request(url: String, headers: [String: String], params: [String: String]) -> Observable<[Photo]> {
+  static let BASE_URL = "https://api.flickr.com/services/rest/"
+  
+  static let parameters = [
+    "method": "flickr.photos.search",
+    "api_key": "#################################",
+    "format": "json",
+    "per_page": "100",
+    "nojsoncallback": "1"
+  ]
+  
+  static let headers = [
+    "Content-Type": "application/json"
+  ]
+  
+  static func request(keyword: String) -> Observable<[Photo]> {
     return Observable.create { observer -> Disposable in
+      var params = parameters
+      params["text"] = keyword
       
-      Alamofire.request(url, parameters: params, headers: headers).responseJSON { response in
+      Alamofire.request(BASE_URL, parameters: params, headers: headers).responseJSON { response in
         
         switch response.result {
         case .success(let value):
-          let result = JSON(value)
-          let photos = result["photos"]["photo"].arrayValue
-            .map { Photo(id: $0["id"].stringValue,
-                         owner: $0["owner"].stringValue,
-                         secret: $0["secret"].stringValue,
-                         server: $0["server"].stringValue,
-                         farm: $0["farm"].intValue,
-                         title: $0["title"].stringValue,
-                         ispubilc: $0["ispublic"].intValue,
-                         isfriend: $0["isfriend"].intValue,
-                         isfamily: $0["isfamily"].intValue)
-          }
-          observer.onNext(photos)
+          let result = JSON(value)["photos"]["photo"].rawString()
+          let photos = Mapper<Photo>().mapArray(JSONString: result!)
+          
+          observer.onNext(photos!)
           observer.onCompleted()
           
         case .failure(let error):
