@@ -45,7 +45,7 @@ class PhotoListViewController: UIViewController {
   
   // MARK : Rx
   
-  let disposeBag = DisposeBag()
+  var disposeBag = DisposeBag()
   
   // MARK: Properties
   
