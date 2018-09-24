@@ -16,7 +16,7 @@ class AppService {
   
   static let parameters = [
     "method": "flickr.photos.search",
-    "api_key": "#################################",
+    "api_key": "###############################",
     "format": "json",
     "per_page": "100",
     "nojsoncallback": "1"
@@ -38,7 +38,7 @@ class AppService {
           let result = JSON(value)["photos"]["photo"].rawString()
           let photos = Mapper<Photo>().mapArray(JSONString: result!)
           
-          observer.onNext(photos!)
+          observer.onNext(photos ?? [])
           observer.onCompleted()
           
         case .failure(let error):

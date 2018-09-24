@@ -14,8 +14,10 @@ import RxSwift
 import RxDataSources
 import ReusableKit
 import Then
+import ReactorKit
+import RxOptional
 
-class PhotoListViewController: UIViewController {
+class PhotoListViewController: UIViewController, ReactorKit.View {
   
   // MARK : Constants
   
@@ -35,7 +37,7 @@ class PhotoListViewController: UIViewController {
   
   // MARK : Rx
   
-  let disposeBag = DisposeBag()
+  var disposeBag = DisposeBag()
   
   // MARK: Properties
   
@@ -66,6 +68,17 @@ class PhotoListViewController: UIViewController {
     return collectionView
   }()
   
+  // MARK: Initializing
+  
+  init(reactor: PhotoListViewReactor) {
+    super.init(nibName: nil, bundle: nil)
+    self.reactor = reactor
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
   // MARK: View Life Cycle
   
   override func viewDidLoad() {
@@ -75,7 +88,6 @@ class PhotoListViewController: UIViewController {
     self.view.addSubview(self.collectionView)
     
     setupConstraints()
-    bind()
   }
   
   override func didReceiveMemoryWarning() {
@@ -83,6 +95,7 @@ class PhotoListViewController: UIViewController {
   }
   
   // MARK: Constraints
+  
   
   func setupConstraints() {
     self.collectionView.snp.makeConstraints{ make in
@@ -98,7 +111,8 @@ class PhotoListViewController: UIViewController {
   
   // MARK: Binding
   
-  func bind() {
+  func bind(reactor: PhotoListViewReactor) {
+    // DataSource
     self.collectionView.rx.setDelegate(self).disposed(by: disposeBag)
     
     self.collectionView.rx.modelSelected(Photo.self).subscribe(onNext: { photo in
@@ -106,23 +120,23 @@ class PhotoListViewController: UIViewController {
       view.photo = photo
       self.navigationController?.pushViewController(view, animated: true)
     })
-    .disposed(by: disposeBag)
+      .disposed(by: disposeBag)
     
+    // Action
     self.searchBar.rx.text
-      .orEmpty
+      .filterNil()
       .debounce(1.0, scheduler: MainScheduler.instance)
-      .distinctUntilChanged()
-      .filter { !$0.isEmpty }
-      .flatMap {
-        return AppService.request(keyword: $0).catchErrorJustReturn([])
-      }
-      .map { [Photos(photos: $0)] }
-      .asDriver(onErrorJustReturn: [])
-      .drive(collectionView.rx.items(dataSource: dataSources))
+      .map(Reactor.Action.searchFlickr)
+      .bind(to: reactor.action)
+      .disposed(by: disposeBag)
+    
+    // State
+    reactor.state.asObservable().map { $0.photos }
+      .replaceNilWith([])
+      .bind(to: collectionView.rx.items(dataSource: dataSources))
       .disposed(by: disposeBag)
   }
 }
-
 
 // MARK: Extension
 

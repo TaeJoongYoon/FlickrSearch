@@ -11,6 +11,7 @@ target 'RxSimpleFlickr' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources', '~> 3.0'
+  pod 'RxOptional'
 
   # UI
   pod 'SnapKit'
