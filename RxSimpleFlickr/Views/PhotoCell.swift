@@ -7,18 +7,17 @@
 //
 
 import UIKit
+
 import SnapKit
+import Then
 
 class PhotoCell: UICollectionViewCell {
   
   // MARK: Properties
   
-  let flickrPhoto : UIImageView = {
-    let f = UIImageView(frame: .zero)
-    f.translatesAutoresizingMaskIntoConstraints = false
-    
-    return f
-  }()
+  let flickrPhoto = UIImageView(frame: .zero).then{
+    $0.translatesAutoresizingMaskIntoConstraints = false
+  }
   
   // MARK: Initialize
   
@@ -50,7 +49,7 @@ class PhotoCell: UICollectionViewCell {
   // MARK: Constraints
   
   func setupConstraints() {
-    self.flickrPhoto.snp.makeConstraints{(make) -> Void in
+    self.flickrPhoto.snp.makeConstraints{ make in
       make.edges.equalTo(self.contentView)
     }
   }

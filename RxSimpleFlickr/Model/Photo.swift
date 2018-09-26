@@ -8,15 +8,15 @@
 
 import ObjectMapper
 
-struct Photo : Mappable{
-  var id : String?
-  var owner : String?
-  var secret : String?
-  var server : String?
-  var farm : Int?
-  var title : String?
-  var ispubilc : Int?
-  var isfriend : Int?
+struct Photo: Mappable{
+  var id: String?
+  var owner: String?
+  var secret: String?
+  var server: String?
+  var farm: Int?
+  var title: String?
+  var ispubilc: Int?
+  var isfriend: Int?
   var isfamily: Int?
   
   init?() { }

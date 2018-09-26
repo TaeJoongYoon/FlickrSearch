@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import SnapKit
+
 import Kingfisher
+import SnapKit
 import Then
 
 class DetailViewController: UIViewController {

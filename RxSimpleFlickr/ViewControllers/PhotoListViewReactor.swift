@@ -6,11 +6,11 @@
 //  Copyright © 2018 Tae joong Yoon. All rights reserved.
 //
 
-import RxSwift
-import RxCocoa
 import ReactorKit
+import RxCocoa
+import RxSwift
 
-class PhotoListViewReactor : Reactor {
+class PhotoListViewReactor: Reactor {
   
   enum Action {
     case searchFlickr(String)
@@ -21,8 +21,7 @@ class PhotoListViewReactor : Reactor {
   }
   
   struct State{
-    var keyword : String?
-    var photos : [Photos]?
+    var photos: [Photos]?
   }
   
   var initialState: State = State()

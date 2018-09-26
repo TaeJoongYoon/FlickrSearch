@@ -7,15 +7,16 @@
 //
 
 import UIKit
-import SnapKit
+
 import Kingfisher
-import RxCocoa
-import RxSwift
-import RxDataSources
-import ReusableKit
-import Then
 import ReactorKit
+import ReusableKit
+import RxCocoa
+import RxDataSources
 import RxOptional
+import RxSwift
+import SnapKit
+import Then
 
 class PhotoListViewController: UIViewController, ReactorKit.View {
   
@@ -30,9 +31,9 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
   }
   
   struct Metric {
-    static let lineSpacing : CGFloat = 10
-    static let intetItemSpacing : CGFloat = 10
-    static let edgeInset : CGFloat = 8
+    static let lineSpacing: CGFloat = 10
+    static let intetItemSpacing: CGFloat = 10
+    static let edgeInset: CGFloat = 8
   }
   
   // MARK : Rx
@@ -121,8 +122,9 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
     
     // Action
     self.searchBar.rx.text
-      .filterNil()
+      .orEmpty
       .debounce(1.0, scheduler: MainScheduler.instance)
+      .filter { !$0.isEmpty }
       .map(Reactor.Action.searchFlickr)
       .bind(to: reactor.action)
       .disposed(by: disposeBag)
@@ -135,11 +137,10 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
   }
 }
 
-// MARK: Extension
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension PhotoListViewController: UICollectionViewDelegateFlowLayout{
   
-  //DelegateFlowLayout
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -9,7 +9,7 @@
 import RxDataSources
 
 struct Photos {
-  var photos : [Photo]
+  var photos: [Photo]
 }
 
 extension Photos : SectionModelType {
