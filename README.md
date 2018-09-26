@@ -1,5 +1,5 @@
 # Rx Simple Flickr
-This project is about iOS with RxSwift.
+This project is about iOS with RxSwift, ReactorKit.
 
 All code is what I studied and Using API [Flickr](www.flickr.com)
 
@@ -18,6 +18,7 @@ All code is what I studied and Using API [Flickr](www.flickr.com)
 
   - [RxSwift](https://github.com/ReactiveX/RxSwift)
   - [RxDataSources](https://github.com/RxSwiftCommunity/RxDataSources)
+  - [RxOptional](https://github.com/RxSwiftCommunity/RxOptional)
 
 - ### UI
 
