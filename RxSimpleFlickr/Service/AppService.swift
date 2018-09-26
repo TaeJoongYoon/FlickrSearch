@@ -16,7 +16,7 @@ class AppService {
   
   static let parameters = [
     "method": "flickr.photos.search",
-    "api_key": "###############################",
+    "api_key": "########################",
     "format": "json",
     "per_page": "100",
     "nojsoncallback": "1"

@@ -58,15 +58,12 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
     $0.sizeToFit()
   }
   
-  let collectionView : UICollectionView = {
-    let collectionView = UICollectionView(frame: .zero
-      , collectionViewLayout: UICollectionViewFlowLayout())
-    
-    collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.backgroundColor = .white
-    collectionView.register(Reusable.flickrCell)
-    return collectionView
-  }()
+  let collectionView = UICollectionView(frame: .zero,
+                                        collectionViewLayout: UICollectionViewFlowLayout()).then {
+    $0.backgroundColor = .white
+    $0.translatesAutoresizingMaskIntoConstraints = false
+    $0.register(Reusable.flickrCell)
+  }
   
   // MARK: Initializing
   
