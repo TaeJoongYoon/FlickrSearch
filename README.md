@@ -12,7 +12,7 @@ All code is what I studied and Using API [Flickr](www.flickr.com)
 <br>
 
 ## Libraries
-- ### Architecutre
+- ### Architecture
 
   ---
 
