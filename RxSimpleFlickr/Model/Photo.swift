@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-struct Photo: Mappable{
+struct Photo: Mappable {
   var id: String?
   var owner: String?
   var secret: String?
@@ -19,9 +19,9 @@ struct Photo: Mappable{
   var isfriend: Int?
   var isfamily: Int?
   
-  init?() { }
+  init?() {}
   
-  init?(map: Map) {  }
+  init?(map: Map) {}
   
   mutating func mapping(map: Map) {
     id <- map["id"]

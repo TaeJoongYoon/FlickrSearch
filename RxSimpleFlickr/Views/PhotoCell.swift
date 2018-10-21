@@ -15,7 +15,7 @@ class PhotoCell: UICollectionViewCell {
   
   // MARK: Properties
   
-  let flickrPhoto = UIImageView(frame: .zero).then{
+  let flickrPhoto = UIImageView(frame: .zero).then {
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
@@ -49,7 +49,7 @@ class PhotoCell: UICollectionViewCell {
   // MARK: Constraints
   
   func setupConstraints() {
-    self.flickrPhoto.snp.makeConstraints{ make in
+    self.flickrPhoto.snp.makeConstraints { make in
       make.edges.equalTo(self.contentView)
     }
   }

@@ -17,7 +17,7 @@ class DetailViewController: UIViewController {
   // MARK: Properties
   var photo = Photo()
   
-  let imageView = UIImageView(frame: .zero).then{
+  let imageView = UIImageView(frame: .zero).then {
     $0.translatesAutoresizingMaskIntoConstraints = false
   }
   
@@ -47,12 +47,12 @@ class DetailViewController: UIViewController {
   // MARK: Constraints
   
   func setupConstraints() {
-    self.imageView.snp.makeConstraints{make  in
+    self.imageView.snp.makeConstraints { make in
       make.center.equalTo(self.view)
       make.width.height.equalTo(240)
     }
     
-    self.titleLabel.snp.makeConstraints{make in
+    self.titleLabel.snp.makeConstraints { make in
       make.top.equalTo(self.imageView.snp.bottom).offset(20)
       make.centerX.equalTo(self.view)
     }

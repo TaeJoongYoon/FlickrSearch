@@ -26,7 +26,7 @@ class PhotoListViewReactor: Reactor {
   
   var initialState: State = State()
 
-  init() { }
+  init() {}
   
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
