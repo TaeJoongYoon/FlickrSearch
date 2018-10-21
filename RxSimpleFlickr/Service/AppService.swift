@@ -35,10 +35,11 @@ class AppService {
         
         switch response.result {
         case .success(let value):
-          let result = JSON(value)["photos"]["photo"].rawString()
-          let photos = Mapper<Photo>().mapArray(JSONString: result!)
-          
-          observer.onNext(photos!)
+          if let result = JSON(value)["photos"]["photo"].rawString(),
+            let photos = Mapper<Photo>().mapArray(JSONString: result) {
+            observer.onNext(photos)
+          }
+
           observer.onCompleted()
           
         case .failure(let error):

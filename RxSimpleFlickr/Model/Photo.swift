@@ -35,7 +35,15 @@ struct Photo: Mappable{
     isfamily <- map["isfamily"]
   }
   
-  func flickrURL() -> String{
-    return "https://farm\(farm!).staticflickr.com/\(server!)/\(id!)_\(secret!).jpg"
+  func flickrURL() -> String? {
+    guard let farm = farm,
+        let server = server,
+        let id = id,
+        let secret = secret
+    else {
+        return nil
+    }
+
+    return "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret).jpg"
   }
 }

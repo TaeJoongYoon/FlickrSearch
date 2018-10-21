@@ -33,10 +33,11 @@ class DetailViewController: UIViewController {
     setupConstraints()
     
     
-    let url = URL(string: photo!.flickrURL())
-    self.imageView.kf.setImage(with: url)
+    if let imageURL = photo?.flickrURL(), let url = URL(string: imageURL) {
+        self.imageView.kf.setImage(with: url)
+    }
     
-    self.titleLabel.text = photo!.title!
+    self.titleLabel.text = photo?.title
   }
   
   override func didReceiveMemoryWarning() {

@@ -47,8 +47,9 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
                                                                                     indexPath,
                                                                                     item in
     let cell = collectionView.dequeue(Reusable.flickrCell, for: indexPath)
-    let url = URL(string: item.flickrURL())
-    cell.flickrPhoto.kf.setImage(with: url)
+    if let imageURL = item.flickrURL(), let url = URL(string: imageURL) {
+        cell.flickrPhoto.kf.setImage(with: url)
+    }
     
     return cell
   })
