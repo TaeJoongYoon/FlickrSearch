@@ -47,13 +47,14 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
                                                                                     indexPath,
                                                                                     item in
     let cell = collectionView.dequeue(Reusable.flickrCell, for: indexPath)
-    let url = URL(string: item.flickrURL())
-    cell.flickrPhoto.kf.setImage(with: url)
+    if let imageURL = item.flickrURL(), let url = URL(string: imageURL) {
+        cell.flickrPhoto.kf.setImage(with: url)
+    }
     
     return cell
   })
 
-  let searchBar = UISearchBar(frame: .zero).then{
+  let searchBar = UISearchBar(frame: .zero).then {
     $0.searchBarStyle = .prominent
     $0.placeholder = "Search Flickr"
     $0.sizeToFit()
@@ -96,16 +97,27 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
   
   
   func setupConstraints() {
+<<<<<<< HEAD
     self.searchBar.snp.makeConstraints{ make in
       make.top.equalTo(self.view.safeArea.top)
       make.left.right.equalTo(self.view)
     }
     
     self.collectionView.snp.makeConstraints{ make in
+=======
+    self.collectionView.snp.makeConstraints { make in
+>>>>>>> 26cb8b8f0e59243fa1b6279fd76408d8e83b063b
       make.top.equalTo(self.searchBar.snp.bottom)
       make.left.right.bottom.equalTo(self.view)
     }
     
+<<<<<<< HEAD
+=======
+    self.searchBar.snp.makeConstraints { make in
+      make.top.equalTo(self.view).offset(20 + 44)
+      make.left.right.equalTo(self.view)
+    }
+>>>>>>> 26cb8b8f0e59243fa1b6279fd76408d8e83b063b
   }
   
   // MARK: Binding
@@ -140,7 +152,7 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension PhotoListViewController: UICollectionViewDelegateFlowLayout{
+extension PhotoListViewController: UICollectionViewDelegateFlowLayout {
   
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
@@ -150,7 +162,7 @@ extension PhotoListViewController: UICollectionViewDelegateFlowLayout{
   }
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
-                      minimumLineSpacingForSectionAt section: Int) ->CGFloat {
+                      minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return Metric.lineSpacing
   }
   

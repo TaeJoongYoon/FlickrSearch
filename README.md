@@ -1,7 +1,7 @@
-# Rx Simple Flickr
-This project is about iOS with RxSwift, ReactorKit.
+# Flickr Search
+This project is about iOS with RxSwift, [ReactorKit](https://github.com/ReactorKit/ReactorKit).
 
-All code is what I studied and Using API [Flickr](www.flickr.com)
+A simple application which provides a [Flickr](https://www.flickr.com) Photo search
 
 <br>
 
@@ -12,7 +12,13 @@ All code is what I studied and Using API [Flickr](www.flickr.com)
 <br>
 
 ## Libraries
-- ### Architecutre
+- ### Architecture
+
+  ---
+
+  - [ReactorKit](https://github.com/ReactorKit/ReactorKit)
+
+- ### Rx
 
   ---
 
