@@ -27,6 +27,12 @@ class DetailViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save",
+                                                             style: .done,
+                                                             target: self,
+                                                             action: #selector(save(_:)))
+    
     self.view.addSubview(self.imageView)
     self.view.addSubview(self.titleLabel)
     
@@ -55,5 +61,33 @@ class DetailViewController: UIViewController {
       make.top.equalTo(self.imageView.snp.bottom).offset(20)
       make.centerX.equalTo(self.view)
     }
+  }
+  
+  // MARK: Functions
+  
+  //MARK: - Saving Image here
+  
+  @objc func save(_ sender: AnyObject) {
+    guard let selectedImage = self.imageView.image else {
+      print("Image not found!")
+      return
+    }
+    UIImageWriteToSavedPhotosAlbum(selectedImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+  }
+  
+  //MARK: - Add image to Library
+  
+  @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+    if let error = error {
+      showAlertWith(title: "Save error", message: error.localizedDescription)
+    } else {
+      showAlertWith(title: "Saved!", message: "Your image has been saved to your photos.")
+    }
+  }
+  
+  func showAlertWith(title: String, message: String){
+    let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    ac.addAction(UIAlertAction(title: "OK", style: .default))
+    present(ac, animated: true)
   }
 }

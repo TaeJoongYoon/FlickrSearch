@@ -96,15 +96,16 @@ class PhotoListViewController: UIViewController, ReactorKit.View {
   
   
   func setupConstraints() {
+    self.searchBar.snp.makeConstraints{ make in
+      make.top.equalTo(self.view.safeArea.top)
+      make.left.right.equalTo(self.view)
+    }
+    
     self.collectionView.snp.makeConstraints{ make in
       make.top.equalTo(self.searchBar.snp.bottom)
       make.left.right.bottom.equalTo(self.view)
     }
     
-    self.searchBar.snp.makeConstraints{ make in
-      make.top.equalTo(self.view).offset(20 + 44)
-      make.left.right.equalTo(self.view)
-    }
   }
   
   // MARK: Binding
@@ -168,4 +169,3 @@ extension PhotoListViewController: UICollectionViewDelegateFlowLayout{
                             Metric.edgeInset)
   }
 }
-
