@@ -7,7 +7,7 @@ A simple application which provides a [Flickr](https://www.flickr.com) Photo sea
 
 ## View
 ---
-![My View](./rxSimpleFlickr.gif)
+![My View](./README/rxSimpleFlickr.gif)
 
 <br>
 
